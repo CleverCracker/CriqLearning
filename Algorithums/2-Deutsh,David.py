@@ -37,7 +37,18 @@ def main():
     print()
     oracle = make_oracle(q0, q1, secret_funtion)
     print('Secret Fucntion:\nf(x) = <{}>'.format(
-        ', '.join(str(e) for e in secret_funtion)))
+        ' '.join(str(e) for e in secret_funtion)))
+
+    circuit = make_deutsch_circuit(q0, q1, oracle)
+
+    print('Circuit:')
+    print(circuit)
+
+    # Simulation the Circuit
+    simulator = cirq.Simulator()
+    result = simulator.run(circuit)
+    print('Result of f(0)⊕f(1):')
+    print(result)
 
 
 def make_oracle(q0, q1, secret_funtion):
@@ -47,7 +58,7 @@ def make_oracle(q0, q1, secret_funtion):
     if secret_funtion[0]:
         yield [CNOT(q0, q1, X(q1))]
     if secret_funtion[1]:
-        yield CNOT(q0, q1)
+        yield [CNOT(q0, q1)]
 
 
 def make_deutsch_circuit(q0, q1, oracle):
@@ -59,7 +70,7 @@ def make_deutsch_circuit(q0, q1, oracle):
 
     # Initialization of Qubit
     c.append([X(q1), H(q1), H(q0)])
-
+    print(oracle)
     c.append(oracle)
 
     # Measure the X Basic
