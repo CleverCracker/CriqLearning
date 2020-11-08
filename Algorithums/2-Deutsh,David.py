@@ -37,7 +37,7 @@ def main():
     print()
     oracle = make_oracle(q0, q1, secret_funtion)
     print('Secret Fucntion:\nf(x) = <{}>'.format(
-        ' '.join(str(e) for e in secret_funtion)))
+        ', '.join(str(e) for e in secret_funtion)))
 
     circuit = make_deutsch_circuit(q0, q1, oracle)
 
